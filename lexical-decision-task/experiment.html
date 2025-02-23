@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Experiment</title>
+    <script src="https://unpkg.com/jspsych@8.2.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@2.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@2.1.0"></script>
+    <link href="https://unpkg.com/jspsych@8.2.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body></body>
+<script>
+
+    /* initialize jsPsych */
+    var jsPsych = initJsPsych({
+        on_finish: function () {
+            jsPsych.data.displayData();
+        }
+    });
+
+    /* create timeline */
+    var timeline = [];
+
+    /* define welcome message trial */
+    var welcome = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "Welcome to the experiment. Press any key to begin."
+    };
+    timeline.push(welcome);
+
+    /* define instructions trial */
+    var instructions = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `
+        <p>In this experiment, a string of letters will appear on the screen</p><p>If the string of letters is a real english word, 
+        press the letter <b>F</b> on the keyboard as fast as you can.</p>
+        <p>If the string of letters is not a real word, press the letter <b>J</b> 
+        as fast as you can.</p>
+        <div style='width: 700px;'>
+        <p>Press any key to begin the practice trial.</p>
+      `,
+        post_trial_gap: 2000
+    };
+
+
+    timeline.push(instructions);
+
+    var practice_stimuli = [
+        { stimulus: "Orange", correct_response: 'f' },
+        { stimulus: "Kwilla", correct_response: 'j' },
+        { stimulus: "Telepathy", correct_response: 'f' },
+        { stimulus: "Smilal", correct_response: 'j' }
+    ];
+
+    var test_stimuli = [
+            // Frequent words
+            { stimulus: "Apple", correct_response: 'f' },
+            { stimulus: "House", correct_response: 'f' },
+            { stimulus: "Garden", correct_response: 'f' },
+            { stimulus: "Music", correct_response: 'f' },
+            { stimulus: "Friend", correct_response: 'f' },
+            { stimulus: "Window", correct_response: 'f' },
+            { stimulus: "Street", correct_response: 'f' },
+            { stimulus: "School", correct_response: 'f' },
+            { stimulus: "Market", correct_response: 'f' },
+            { stimulus: "Dinner", correct_response: 'f' },
+            { stimulus: "River", correct_response: 'f' },
+            { stimulus: "Table", correct_response: 'f' },
+            { stimulus: "Shadow", correct_response: 'f' },
+            { stimulus: "Travel", correct_response: 'f' },
+            { stimulus: "Garden", correct_response: 'f' },
+            { stimulus: "Bottle", correct_response: 'f' },
+            { stimulus: "Forest", correct_response: 'f' },
+            { stimulus: "Laptop", correct_response: 'f' },
+            { stimulus: "Bicycle", correct_response: 'f' },
+            { stimulus: "Holiday", correct_response: 'f' },
+
+            // Infrequent words
+            { stimulus: "Gossamer", correct_response: 'f' },
+            { stimulus: "Zephyr", correct_response: 'f' },
+            { stimulus: "Quixotic", correct_response: 'f' },
+            { stimulus: "Ephemeral", correct_response: 'f' },
+            { stimulus: "Susurrus", correct_response: 'f' },
+            { stimulus: "Lachrymose", correct_response: 'f' },
+            { stimulus: "Serendipity", correct_response: 'f' },
+            { stimulus: "Obfuscate", correct_response: 'f' },
+            { stimulus: "Mellifluous", correct_response: 'f' },
+            { stimulus: "Pernicious", correct_response: 'f' },
+            { stimulus: "Effulgent", correct_response: 'f' },
+            { stimulus: "Somnolent", correct_response: 'f' },
+            { stimulus: "Nefarious", correct_response: 'f' },
+            { stimulus: "Obstreperous", correct_response: 'f' },
+            { stimulus: "Sycophant", correct_response: 'f' },
+            { stimulus: "Pulchritude", correct_response: 'f' },
+            { stimulus: "Lugubrious", correct_response: 'f' },
+            { stimulus: "Recondite", correct_response: 'f' },
+            { stimulus: "Cacophony", correct_response: 'f' },
+            { stimulus: "Halcyon", correct_response: 'f' },
+
+            // Nonwords
+            { stimulus: "Frubnix", correct_response: 'j' },
+            { stimulus: "Zortile", correct_response: 'j' },
+            { stimulus: "Blimpest", correct_response: 'j' },
+            { stimulus: "Jandify", correct_response: 'j' },
+            { stimulus: "Murtlax", correct_response: 'j' },
+            { stimulus: "Splosher", correct_response: 'j' },
+            { stimulus: "Brimtock", correct_response: 'j' },
+            { stimulus: "Crindal", correct_response: 'j' },
+            { stimulus: "Vornix", correct_response: 'j' },
+            { stimulus: "Drelbin", correct_response: 'j' },
+            { stimulus: "Glanket", correct_response: 'j' },
+            { stimulus: "Spandor", correct_response: 'j' },
+            { stimulus: "Thrizzle", correct_response: 'j' },
+            { stimulus: "Plamper", correct_response: 'j' },
+            { stimulus: "Smunkle", correct_response: 'j' },
+            { stimulus: "Brindlef", correct_response: 'j' },
+            { stimulus: "Gribnax", correct_response: 'j' },
+            { stimulus: "Flibnort", correct_response: 'j' },
+            { stimulus: "Zimblet", correct_response: 'j' },
+            { stimulus: "Worvix", correct_response: 'j' }
+        ];
+
+
+    var fixation = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: '<div style="font-size:60px;">+</div>',
+            choices: "NO_KEYS",
+            trial_duration: function () {
+                return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+            },
+            data: {
+                task: 'fixation'
+            }
+        };
+
+     
+    var test = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: jsPsych.timelineVariable('stimulus'),
+        choices: ['f', 'j'],
+        data: {
+            task: 'response',
+            correct_response: jsPsych.timelineVariable('correct_response')
+        },
+        on_finish: function (data) {
+            data.correct = jsPsych.pluginAPI.compareKeys(data.response, data.correct_response);
+        }
+    };
+
+
+    var practice_procedure = {
+        timeline: [fixation, test],
+        timeline_variables: practice_stimuli,
+        randomize_order: true
+    };
+
+    timeline.push(practice_procedure);
+
+    var announce_test = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: 
+            `<p>You've completed the practice trials.</p> <p>Press any key to begin the experiment trials.</p>`,
+            post_trial_gap: 2000
+        };
+
+    timeline.push(announce_test);
+
+    var test_procedure = {
+        timeline: [fixation, test],
+        timeline_variables: test_stimuli,
+        randomize_order: true
+    };
+
+    timeline.push(test_procedure);
+
+    /* define debrief */
+    var debrief_block = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+
+            var trials = jsPsych.data.get().filter({ task: 'response' });
+            var correct_trials = trials.filter({ correct: true });
+            var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+            var rt = Math.round(correct_trials.select('rt').mean());
+
+            return `<p>You responded correctly on ${accuracy}% of the trials.</p>
+          <p>Your average response time was ${rt}ms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>`;
+
+        }
+    };
+    timeline.push(debrief_block);
+
+    /* start the experiment */
+    jsPsych.run(timeline);
+
+</script>
+</html>
